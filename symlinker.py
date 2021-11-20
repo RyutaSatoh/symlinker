@@ -19,6 +19,10 @@ def check_srconly_and_symlink(src: str, dst: str, dc: dircmp, filter_ext: List[s
     srconly = dc.left_only
 
     for p in srconly:
+        if p.startswith('.'):
+            # a file or dir starts with . should be ignored
+            continue
+
         splitext = os.path.splitext(p)
 
         if len(splitext) > 1:
