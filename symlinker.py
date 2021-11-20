@@ -10,7 +10,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument('--src', '-s', required=True)
     parser.add_argument('--dst', '-d', required=True)
-    parser.add_argument('--filter_ext', '-f', nargs='*', default=['mov', 'm4a', 'mp4', '3gp'])
+    parser.add_argument('--filter_ext', '-f', nargs='*', default=['mov', 'm4a', 'mp4', '3gp', 'mts', 'arw'])
 
     return parser.parse_args()
 
