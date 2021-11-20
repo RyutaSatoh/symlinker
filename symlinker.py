@@ -25,7 +25,12 @@ def check_srconly_and_symlink(src: str, dst: str, dc: dircmp, filter_ext: List[s
 
         splitext = os.path.splitext(p)
 
-        if len(splitext) > 1:
+        if splitext[1] != '':
+            # TODO
+            # Currently directories must be named without extension.
+            # This is OK for my environment, but not a general prerequirement.
+            # os.path.isdir should be checked first.
+
             if len(splitext[1]) > 2 and splitext[1][1:].lower() not in filter_ext:
                 # only if a path ...
                 # * has an extension
