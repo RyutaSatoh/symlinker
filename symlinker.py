@@ -36,9 +36,12 @@ def check_srconly_and_symlink(src: str, dst: str, dc: dircmp, filter_ext: List[s
                 # * has an extension
                 # * an extension not in filter list
 
+                src_path = os.path.join(src, p)
+                dst_path = os.path.join(dst, p)
+                src_rel_path = os.path.relpath(src_path, dst)
                 os.symlink(
-                    os.path.join(src, p),
-                    os.path.join(dst, p)
+                    src_rel_path,
+                    dst_path
                 )
 
         else:
