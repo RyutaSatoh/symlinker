@@ -8,7 +8,7 @@ from typing import List
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument('--src', '-s', required=True)
+    parser.add_argument('--src', '-s', required=True, nargs='*')
     parser.add_argument('--dst', '-d', required=True)
     parser.add_argument('--filter_ext', '-f', nargs='*', default=['mov', 'm4a', 'mp4', '3gp', 'mts', 'arw'])
 
@@ -75,24 +75,26 @@ def check_srconly_and_symlink(src: str, dst: str, dc: dircmp, filter_ext: List[s
 def main() -> None:
     args = parse_args()
 
-    if not os.path.exists(args.src):
-        logging.error(f'source path not found ({args.src})')
-        exit(-1)
-    if not os.path.isdir(args.src):
-        logging.error(f'source path is not a directory ({args.src})')
-        exit(-1)
+    for src in args.src:
+        print(src)
+        if not os.path.exists(src):
+            logging.error(f'source path not found ({src})')
+            exit(-1)
+        if not os.path.isdir(src):
+            logging.error(f'source path is not a directory ({src})')
+            exit(-1)
 
-    if not os.path.exists(args.dst):
-        logging.error(f'destination path not found ({args.dst})')
-        exit(-1)
-    if not os.path.isdir(args.dst):
-        logging.error(f'destination path is not a directory ({args.dst})')
-        exit(-1)
+        dst = os.path.join(args.dst, os.path.basename(src))
+        if not os.path.exists(dst):
+            os.mkdir(dst)
+        if not os.path.isdir(dst):
+            logging.error(f'destination path is not a directory ({dst})')
+            exit(-1)
 
-    dc = dircmp(args.src, args.dst)
-    check_srconly_and_symlink(
-        args.src, args.dst, dc, args.filter_ext
-    )
+        dc = dircmp(src, dst)
+        check_srconly_and_symlink(
+            src, dst, dc, args.filter_ext
+        )
 
 
 if __name__ == '__main__':
