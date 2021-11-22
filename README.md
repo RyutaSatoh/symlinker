@@ -1,2 +1,2 @@
 # symlinker
-Make symlinks for filtered extensions
+Make symlinks recursively for filtered extensions
